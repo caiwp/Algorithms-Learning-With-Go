@@ -10,29 +10,43 @@ import (
 
 func TestQuickSort(t *testing.T) {
 	list := utils.GetArrayOfSize(10)
-			
-	// Sort(list)
-	HoareSort(list, 0, len(list)-1)
-	// LomutoSort(list, 0, len(list)-1)
-
-	for i := 0; i < len(list)-2; i++ {
-		if list[i] > list[i+1] {
-			fmt.Println(list)
-			t.Error()
-		}
-	}
+	fmt.Println(list)
+	QuickSort(list, 0, len(list)-1)
+	//HoareSort(list, 0, len(list)-1)
+	fmt.Println(list)
 }
 
+func TestSort(t *testing.T) {
+	list := utils.GetArrayOfSize(10)
+	fmt.Println(list)
+	Sort(list)
+	fmt.Println(list)
+}
+
+func TestBubbleSort(t *testing.T) {
+	list := utils.GetArrayOfSize(10)
+	fmt.Println(list)
+	BubbleSort(list)
+	fmt.Println(list)
+}
 
 func benchmarkQuickSort(n int, b *testing.B) {
 	list := utils.GetArrayOfSize(n)
 	
 	for i := 0; i < b.N; i++ {
-		// Sort(list)
-		// Sort(list)LomutoSort
-		// LomutoSort(list, 0, len(list)-1)
 		HoareSort(list, 0, len(list)-1)
+		//QuickSort(list, 0, len(list)-1)
 	}
+}
+
+func BenchmarkSort(b *testing.B) {
+	list := utils.GetArrayOfSize(100000)
+	Sort(list)
+}
+
+func BenchmarkBubbleSort(b *testing.B) {
+	list := utils.GetArrayOfSize(100000)
+	BubbleSort(list)
 }
 
 func BenchmarkQuickSort100(b *testing.B) { benchmarkQuickSort(100, b) }

@@ -1,3 +1,4 @@
+package quick
 /*
 # quick sort 快速排序
 
@@ -11,7 +12,6 @@
 -Best:O(n lg n)
 -Average:O(n lg n)
 */
-package quick
 /*
 	简单快排：
 	递归模板返回小于、等于、大于基点比较元素的三个数组（低值数组、等值数组、高值数组），
@@ -26,41 +26,50 @@ package quick
 	等值数组
 	高值数组
  */ 
-func Sort(list []int) []int{
 
+func Sort(list []int) []int {
 	if len(list) <= 1 {
 		return list
 	}
 
-	//[[----递归模板区
-
 	pivot := list[len(list)/2]
-	
-	partitionFunc :=  func (arr []int, pivot int) ([]int, []int, []int){//基点分割函数
-		lessArr := make([]int, 0)
-		greaterArr := make([]int, 0)
-		equalArr := make([]int, 0)
-		
-		for _, value := range arr {
-			switch {
-				case value < pivot:
-					lessArr = append(lessArr,value)
-				case value > pivot:
-					greaterArr = append(greaterArr,value)
-				default:
-					equalArr = append(equalArr,value)
-			}
-		}
-		return lessArr, equalArr, greaterArr
-	}
-	less, equal, greater := partitionFunc(list, pivot)
-	//--------------]]
+
+	less, equal, greater := partitionsFunc(list, pivot)
 
 	copy(list, Sort(less))
 	copy(list[len(less):], equal)
-	copy(list[(len(less)+len(equal)):], Sort(greater))
+	copy(list[len(less)+len(equal):], Sort(greater))
 
 	return list
+}
+
+func partitionsFunc(sl []int, pivot int) ([]int, []int, []int) {
+	lessSlice := make([]int, 0)
+	equalSlice := make([]int, 0)
+	greaterSlice := make([]int, 0)
+	
+	for _, v := range sl {
+		switch {
+		case v < pivot:
+			lessSlice = append(lessSlice, v)
+		case v > pivot:
+			greaterSlice = append(greaterSlice, v)
+		default:
+			equalSlice =  append(equalSlice, v)
+		}
+	}
+
+	return lessSlice, equalSlice, greaterSlice
+}
+
+func BubbleSort(list []int) {
+	for i := 0; i < len(list) - 1; i ++ {
+		for j := 0; j < len(list) - i -1; j ++ {
+			if list[j] < list[j+1] {
+				list[j], list[j+1] = list[j+1], list[j]
+			}
+		}
+	}
 }
 
 /*
@@ -138,4 +147,35 @@ func HoareSort(list []int, low int, high int) {
 	HoareSort(list, low, right)
 
 	HoareSort(list, right+1, high)
+}
+
+func QuickSort(list []int, left, right int) {
+	if left >= right {
+		return
+	}
+
+	pivot := list[left]
+	i := left
+	j := right
+
+	for {
+		for list[i] <= pivot && i < right {
+			i ++
+		}
+
+		for list[j] >= pivot && left < j {
+			j --
+		}
+
+		if i < j {
+			list[i], list[j] = list[j], list[i]
+		} else {
+			break
+		}
+	}
+
+	list[left], list[j] = list[j], list[left]
+
+	QuickSort(list, left, j)
+	QuickSort(list, j+1, right)
 }
