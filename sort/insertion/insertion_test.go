@@ -9,9 +9,11 @@ import (
 
 
 func TestInsertionSort(t *testing.T) {
-	list := utils.GetArrayOfSize(100)
-			
+	list := utils.GetArrayOfSize(5)
+
+	fmt.Println(list)
 	Sort(list)
+	fmt.Println(list)
 
 	for i := 0; i < len(list)-2; i++ {
 		if list[i] > list[i+1] {
@@ -19,6 +21,13 @@ func TestInsertionSort(t *testing.T) {
 			t.Error()
 		}
 	}
+}
+
+func TestSort1(t *testing.T) {
+	list := utils.GetArrayOfSize(5)
+	fmt.Println(list)
+	Sort1(list)
+	fmt.Println(list)
 }
 
 func benchmarkInsertionSort(n int, b *testing.B) {

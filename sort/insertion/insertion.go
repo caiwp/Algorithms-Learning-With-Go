@@ -1,4 +1,5 @@
 /*
+http://bubkoo.com/2014/01/14/sort-algorithm/insertion-sort/
 # insertion sort 插入排序
 
 插入排序可以原地(in-place)也可以非原地(not-in-place)，核心步骤是在无序数组中选出被排数，
@@ -13,25 +14,48 @@
 - Best:
 - Average:O(n^2)
 
- */
+*/
 package insertion
+
+import "fmt"
 
 /*
 	in-place 方式
- */
+*/
 func Sort(arr []int) []int {
 	length := len(arr)
-	if length == 1 {return arr}
+	if length == 1 {
+		return arr
+	}
 
 	for i := 1; i < length; i++ {
 		backup := arr[i]
-		j := i -1;
+		j := i - 1
 		//将选出的被排数比较后插入左边有序区
-		for  j >= 0 && backup < arr[j] {//注意j >= 0必须在前边，否则会数组越界
-			arr[j+1] = arr[j]//移动有序数组
-			j -- //反向移动下标
+		for j >= 0 && backup < arr[j] { //注意j >= 0必须在前边，否则会数组越界
+			arr[j+1] = arr[j] //移动有序数组
+			j--               //反向移动下标
 		}
-		arr[j + 1] = backup //插队插入移动后的空位
+		arr[j+1] = backup //插队插入移动后的空位
 	}
 	return arr
+}
+
+func Sort1(sl []int) {
+	if len(sl) == 1 {
+		return
+	}
+
+	for i := 1; i < len(sl); i++ {
+		tmp := sl[i]
+		fmt.Println("tmp: ", tmp, "list: ", sl)
+		j := i - 1
+		for j >= 0 && sl[j] > tmp {
+			fmt.Println("before j: ", j, "list: ", sl)
+			sl[j+1] = sl[j]
+			fmt.Println("after j: ", j, "list: ", sl)
+			j--
+		}
+		sl[j+1] = tmp
+	}
 }
