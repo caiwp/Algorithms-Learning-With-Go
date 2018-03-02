@@ -21,6 +21,8 @@
  */
 package shell
 
+import "fmt"
+
 /*
 	排序起始点与步长为变量而非常量0和1的时候乃是更为一般化的实现。
  */
@@ -37,6 +39,7 @@ func insertion(arr []int, start, gap int) {
 		arr[trackVal + gap] = backup
 	}
 }
+
 func Sort(arr []int) []int {
 	//设定步长增量
 	gap := len(arr)/2
@@ -49,4 +52,31 @@ func Sort(arr []int) []int {
 	}
 
 	return arr
+}
+
+func insertion1(sl []int, start, gap int) {
+	fmt.Println("list: ", sl, "start: ", start, "gap: ", gap)
+	for i := start + gap; i < len(sl); i += gap {
+		tmp := sl[i]
+		fmt.Println("i: ", i, "tmp: ", tmp)
+		j := i - gap
+		for j >= 0 && tmp < sl[j] {
+			fmt.Println("j: ", j, "list: ", sl)
+			sl[j + gap] = sl[j]
+			fmt.Println("j: ", j, "list: ", sl)
+			j -= gap
+		}
+		sl[j + gap] = tmp
+	}
+}
+
+func Sort1(sl []int) {
+	gap := len(sl) / 2
+
+	for gap > 0 {
+		for i := 0; i < gap; i ++ {
+			insertion1(sl, i, gap)
+		}
+		gap /= 2
+	}
 }

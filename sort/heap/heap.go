@@ -13,32 +13,42 @@
 - Best: O(n lg n)
 */
 package heap
+
+import (
+	"fmt"
+	"log"
+)
+
 // import "log"
 /*
 	golang 自带 container/heap，此处是对固定类型的一种简单实现最大堆
- */
-func BuildHeap(arr []int, length int){
+*/
+func BuildHeap(arr []int, length int) {
 	if length == 1 {
 		return
 	}
 	//最大非叶节点偏移量（序号为length / 2）
-	maxBranch := length / 2 - 1
+	maxBranch := length/2 - 1
+	fmt.Println("maxBranch: ", maxBranch)
 	//构造全部子树
 	for i := maxBranch; i >= 0; i-- {
 		//左孩子偏移量(序号为 2 * (length / 2))
-		lChild := 2 * i + 1
+		lChild := 2*i + 1
 		//右孩子偏移量(序号为 2 * (length / 2) + 1)
 		rChild := lChild + 1
 		//临时最大值偏移量
 		tmpMax := i
 
+		log.Print("l: ", arr[lChild])
+		log.Print("i: ", arr[i])
+
 		// if rChild > length { break }//不可以，左孩子要与父结点比较
 
 		//将三个节点构造成堆（父结点最大）
-		if arr[lChild] > arr[tmpMax] {//左孩子不需判断是否溢出
+		if arr[lChild] > arr[tmpMax] { //左孩子不需判断是否溢出
 			tmpMax = lChild
 		}
-		if rChild <= length -1 && arr[rChild] > arr[tmpMax] {
+		if rChild <= length-1 && arr[rChild] > arr[tmpMax] {
 			tmpMax = rChild
 		}
 		if tmpMax != i {
@@ -46,18 +56,22 @@ func BuildHeap(arr []int, length int){
 		}
 	}
 }
+
 func Sort(arr []int) []int {
 
 	length := len(arr)
 	for i := 0; i < length; i++ {
 		//将需要重新建堆的长度减短
-		lastMessLen := length-i
+		lastMessLen := length - i
+		//fmt.Println("lassMesslen: ", lastMessLen)
 
+		fmt.Println("before: ", arr)
 		BuildHeap(arr, lastMessLen)
 		//将堆顶（根节点）与无序区的最后叶子节点交换
-		if i < length{
-			arr[0], arr[lastMessLen - 1] = arr[lastMessLen - 1],arr[0]
+		if i < length {
+			arr[0], arr[lastMessLen-1] = arr[lastMessLen-1], arr[0]
 		}
-	}	
+		fmt.Println("after: ", arr)
+	}
 	return arr
 }
